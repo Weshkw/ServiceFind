@@ -1,0 +1,139 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Website</title>
+<style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+    .header{
+        background-color: #010c3d;
+        font-family: Arial, sans-serif;
+        color: rgb(207, 207, 1);
+        position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999; /* Adjust the z-index value as needed */
+  overflow: hidden;
+  
+ 
+    }
+
+    .header,.logo, .statement{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .header-content{
+        width: 100%;
+    }
+
+    .logo img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50% 0 50% 0;
+  background: #d81a14;
+    }
+
+
+
+
+    .statement h3{
+        margin-bottom: 0;
+        font-size: x-large;
+    }
+    @media (max-width: 290px) {
+        .statement h3{
+        margin-bottom: 0;
+        font-size: large;
+        font-weight: 750;
+    }
+}
+    .statement p{
+        margin-bottom: 0;
+    }
+
+    .search-form{
+        margin-top: 5px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .search-form input{
+        width: 70%;
+        border-radius:0 10px 0 10px;
+        height: 30px;
+        font-size: medium;
+        color: rgb(0, 0, 46);
+
+    }
+
+    .search-form button{
+        height: 30px;
+        border-radius: 10px 0 10px 0;
+        color: rgb(0, 1, 39); 
+        background-color: orange;
+    }
+    .user-actions{
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        gap: 10%;
+        width: 90%;
+        
+
+    }
+
+    .login,.register{
+        background-color: #012747;
+        color: rgb(255, 255, 255);
+        border-radius: 5px ;
+        padding: 2px;
+        text-decoration: none;
+
+    }
+
+
+    
+
+
+
+</style>
+
+</head>
+<body>
+    <header class="header"> 
+        <div class="header-content">
+            <div class="logo">
+                <img src="{{ logo.logo.url }}" alt="Your Logo">
+            </div>
+            <div class="statement">
+                <h3>Find Nearby Service Provider</h3>
+                <p>Solve Problems with Ease</p>
+            </div>
+        </div>
+
+        <div class="search-form">
+            <form>
+                <input type="text" placeholder="Search Services or providers...">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+
+        <div class="user-actions">
+            {% if not user.is_authenticated %}
+            <a href="{% url 'login'%}" class="login">Login</a>
+            
+            <a href="{% url 'register_service_provider'%}" class="register"> Register</a>
+            {% endif %}
+        </div>
+    </header>
+</body>
+</html>

@@ -1,0 +1,6 @@
+# Ignore media files within the "static" folder
+static/service_videos/
+static/service_pictures/
+static/profile_pictures/
+static/logoimage/
+

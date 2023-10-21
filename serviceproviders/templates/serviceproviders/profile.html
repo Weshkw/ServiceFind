@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    .profilepic {
+        max-width: 80px;
+        height: auto;
+        border-radius: 50%;}
+    </style>
+</head>
+<body>
+    <h1>Service Provider Profile</h1>
+    
+    <h2>{{ service_providers.user_as_a_provider.username }}</h2>
+    <p>Location: {{ service_providers.location }}</p>
+    
+    <!-- Display the profile picture -->
+    {% if service_providers.profile_picture %}
+        <img src="{{ service_providers.profile_picture.url }}" alt="Profile Picture">
+    {% else %}
+        <p>No profile picture available</p>
+    {% endif %}
+    
+    <h3>Services Provided</h3>
+    <ul>
+        {% for service in service_providers.services_provided.all %}
+            <li>{{ service.service_name }} - ${{ service.service_charge }}</li>
+            <p>{{ service.service_description }}</p>
+            
+            <!-- Display the service video if available -->
+            {% if service.service_video %}
+                <video controls>
+                    <source src="{{ service.service_video.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            {% endif %}
+            
+            <!-- Display the service picture if available -->
+            {% if service.service_picture %}
+                <img src="{{ service.service_picture.url }}" alt="Service Picture">
+            {% endif %}
+        {% endfor %}
+    </ul>
+    
+    <h3>Client Feedback</h3>
+    <ul>
+        {% for feedback in service_providers.clientfeedback_set.all %}
+            <li>{{ feedback.client_feedback }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

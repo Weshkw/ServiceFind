@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+      main{
+        background-color: rgb(245, 247, 228);
+        margin-top: 220px;
+      }
+
+      .eachprovider{
+            background-color: #fff;
+            border: 1px solid #858282;
+            border-radius: 5px;
+            margin: 5px;
+            box-shadow: 0 2px 2px rgba(75, 75, 75, 0.1);
+      }
+
+      .providerinfo{
+        display: flex;
+        gap: 50px;
+        background-color: #fff;
+        border: 1px solid #eeecec;
+        box-shadow: 0 2px 4px rgba(160, 158, 158, 0.1);
+      }
+
+      .providerinfo p:nth-child(1) {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-weight: 600;
+        font-size: large;
+        margin-top: 10px;
+      }
+
+      .providerinfo p:nth-child(2){
+        font-size: large;
+        font-style: italic;
+        margin-top: 10px;
+      }
+
+      .serviceinfo{
+        display: flex;
+        gap: 50px;
+        font-family: Arial, sans-serif;
+      }
+
+      .service_video{
+        width: 100%;
+      }
+
+      .servicemedia p{
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+  
+/*
+.eachprovider {
+            
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 20px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .providerinfo {
+            margin-bottom: 10px;
+        }
+
+        .providerinfo p {
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .serviceinfo {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .serviceinfo p {
+            font-weight: bold;
+        }
+
+        .servicemedia {
+            margin-bottom: 10px;
+        }
+
+        .servicevideo {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .feedback {
+            margin-bottom: 10px;
+        }
+
+        .feedback p {
+            font-weight: bold;
+        }
+
+*/
+
+
+    </style>
+</head>
+<body>
+    <div>
+        {% include "header.html" %}
+    </div>
+
+    <main>
+        
+          {% for provider in service_providers %}
+            <div class="eachprovider">
+                <div class="providerinfo">
+                    <p>{{ provider.user_as_a_provider.username }}</p>
+                    <p>Location: {{ provider.location }}</p>
+                </div>
+          
+              {% with last_service=provider.services_provided.last %}
+                    {% if last_service %}
+                        <div class="serviceinfo">
+                            <p>{{ last_service.service_name }}</p>
+                            <p> Charges: Ksh{{ last_service.service_charge }}</p>
+                        </div>
+            
+                        
+                        <div class="servicemedia">
+                          {% if last_service.service_video %}
+                            <video src="{{ last_service.service_video.url }}" controls class="service_video"></video>
+                          {% elif last_service.service_picture %}
+                            <img src="{{ last_service.service_picture.url }}" alt="Service Picture" class="service_picture">
+                          {% else %}
+                            <p>Service Description: {{ last_service.service_description }}</p>
+                          {% endif %}
+                        </div>
+
+                        
+            
+                        {% for feedback in last_service.clientfeedback_set.all %}
+                            <div class="feedback">
+                                <p>Client Feedback: {{ feedback.client_feedback }}</p>
+                            </div>
+                        {% endfor %}
+
+                    {% endif %}
+              {% endwith %}
+            </div>
+          {% endfor %}
+        
+    
+      
+
+
+    </main>
+
+
+
+
+    <div>
+        {% include "footer.html" %}
+    </div>
+</body>
+</html>
