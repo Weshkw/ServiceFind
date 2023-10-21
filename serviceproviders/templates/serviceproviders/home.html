@@ -46,64 +46,22 @@
         font-family: Arial, sans-serif;
       }
 
-      .service_video{
+      .service_video,.service_picture{
         width: 100%;
       }
 
       .servicemedia p{
         font-family: Arial, Helvetica, sans-serif;
+        font-size: large;
+      }
+
+       /* Css to controw visibility of feedback using javascript */
+      .feedback-container {
+          display: none;
       }
 
   
-/*
-.eachprovider {
-            
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin: 20px;
-            padding: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
 
-        .providerinfo {
-            margin-bottom: 10px;
-        }
-
-        .providerinfo p {
-            font-weight: bold;
-            margin: 10px 0;
-        }
-
-        .serviceinfo {
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .serviceinfo p {
-            font-weight: bold;
-        }
-
-        .servicemedia {
-            margin-bottom: 10px;
-        }
-
-        .servicevideo {
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .feedback {
-            margin-bottom: 10px;
-        }
-
-        .feedback p {
-            font-weight: bold;
-        }
-
-*/
 
 
     </style>
@@ -135,28 +93,32 @@
                             <video src="{{ last_service.service_video.url }}" controls class="service_video"></video>
                           {% elif last_service.service_picture %}
                             <img src="{{ last_service.service_picture.url }}" alt="Service Picture" class="service_picture">
-                          {% else %}
-                            <p>Service Description: {{ last_service.service_description }}</p>
                           {% endif %}
+                          <p>{{ last_service.service_description }}</p>
                         </div>
 
                         
-            
+                        <button class="feedbacks" onclick="toggleFeedbacks(this, 'feedback-container')">Feedbacks</button>
+                        <div class="feedback-container">
+                          <form method="post" action="{% url 'submit_feedback' %}" class="feedback form">
+                            {% csrf_token %}
+                            <input type="hidden" name="service_id" value="{{ last_service.id }}">
+                            <textarea name="client_feedback" placeholder="Leave your feedback here"></textarea>
+                            <input type="submit" value="Submit Feedback">
+                        </form>
+                        
+                        
                         {% for feedback in last_service.clientfeedback_set.all %}
                             <div class="feedback">
-                                <p>Client Feedback: {{ feedback.client_feedback }}</p>
+                                <p>{{ feedback.client_feedback }}</p>
                             </div>
                         {% endfor %}
+                        </div>
 
                     {% endif %}
               {% endwith %}
             </div>
           {% endfor %}
-        
-    
-      
-
-
     </main>
 
 
@@ -166,4 +128,22 @@
         {% include "footer.html" %}
     </div>
 </body>
+
+<script>
+// feedback.js
+
+function toggleFeedbacks(button, containerClass) {
+  // Find the associated feedback container using the provided class
+  const feedbackContainer = button.nextElementSibling;
+  
+  // Toggle the visibility of the feedback container
+  if (feedbackContainer.style.display === "none" || feedbackContainer.style.display === "") {
+    feedbackContainer.style.display = "block";
+  } else {
+    feedbackContainer.style.display = "none";
+  }
+}
+
+
+</script>
 </html>

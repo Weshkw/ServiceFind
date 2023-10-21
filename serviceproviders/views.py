@@ -3,6 +3,7 @@ from django.contrib.auth import login, authenticate
 from django.shortcuts import render,redirect
 from .models import Logo,ServiceProvider, Service,CustomUser,ClientFeedback
 from django.db import transaction
+from django.views.decorators.http import require_POST
 from django.contrib import messages
 
 
@@ -16,6 +17,23 @@ def service_provider_latest_service(request):
     service_providers = ServiceProvider.objects.all()
     context ={'service_providers':service_providers}
     return render(request, 'serviceproviders/home.html', context)
+
+
+@require_POST
+def submit_feedback(request):
+    service_id = request.POST.get('service_id')
+    client_feedback_text = request.POST.get('client_feedback')
+    service = Service.objects.get(id=service_id)
+    
+    # Get the authenticated user's username or 'Anonymous' for anonymous users
+    user_username = request.user.username if request.user.is_authenticated else 'Anonymous'
+    
+    if client_feedback_text:
+        feedback = ClientFeedback(service=service, client_feedback=f" {user_username}: {client_feedback_text}")
+        feedback.save()
+        return redirect('home')
+
+    return render(request, 'serviceproviders\home.html')
 
 def serviceproviderprofile(request,pk):
     service_providers = ServiceProvider.objects.get(pk=pk)
