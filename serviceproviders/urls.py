@@ -10,6 +10,7 @@ urlpatterns = [
     path('serviceprovider/', views.service_provider_latest_service, name='service_provider_services'),
     path('serviceproviderprofile/<int:pk>/', views.serviceproviderprofile,name='serviceproviderprofile'),
     path('submit_feedback/', views.submit_feedback, name='submit_feedback'),
+    path('logout/', views.logout_view, name='logout'),
 
 ]
 

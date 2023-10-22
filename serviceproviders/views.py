@@ -5,7 +5,7 @@ from PIL import Image
 from moviepy.editor import VideoFileClip
 
 from .forms import RegistrationForm, CustomUserLoginForm
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate,logout
 from django.shortcuts import render,redirect
 from .models import Logo,ServiceProvider, Service,CustomUser,ClientFeedback
 from django.db import transaction
@@ -157,3 +157,7 @@ def login_view(request):
         form = CustomUserLoginForm()
 
     return render(request, 'serviceproviders\login.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+    return redirect('home')
