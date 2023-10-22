@@ -76,7 +76,7 @@
           {% for provider in service_providers %}
             <div class="eachprovider">
                 <div class="providerinfo">
-                    <p>{{ provider.user_as_a_provider.username }}</p>
+                    <p> <a href="{% url 'serviceproviderprofile' provider.pk %}">{{ provider.user_as_a_provider.username }}</a></p>
                     <p>Location: {{ provider.location }}</p>
                 </div>
           
@@ -90,9 +90,9 @@
                         
                         <div class="servicemedia">
                           {% if last_service.service_video %}
-                            <video src="{{ last_service.service_video.url }}" controls class="service_video"></video>
+                            <video src="{{ last_service.service_video.url }}" controls class="service_video"  loading="lazy"></video>
                           {% elif last_service.service_picture %}
-                            <img src="{{ last_service.service_picture.url }}" alt="Service Picture" class="service_picture">
+                            <img src="{{ last_service.service_picture.url }}" alt="Service Picture" class="service_picture"  loading="lazy">
                           {% endif %}
                           <p>{{ last_service.service_description }}</p>
                         </div>

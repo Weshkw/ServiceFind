@@ -74,7 +74,7 @@ from django import forms
 
 class RegistrationForm(forms.Form):
     username = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'username'}))
-    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'email'}))
+    email = forms.EmailField( widget=forms.EmailInput(attrs={'class': 'email'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'password'}))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'password2'}))
     profile_picture = forms.ImageField(required=False, widget=forms.FileInput(attrs={'class': 'profile_picture'}))

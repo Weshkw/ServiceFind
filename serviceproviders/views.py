@@ -1,10 +1,17 @@
+import os
+from io import BytesIO
+from django.core.files.base import ContentFile
+from PIL import Image
+from moviepy.editor import VideoFileClip
+
 from .forms import RegistrationForm, CustomUserLoginForm
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render,redirect
 from .models import Logo,ServiceProvider, Service,CustomUser,ClientFeedback
 from django.db import transaction
 from django.views.decorators.http import require_POST
-from django.contrib import messages
+from PIL import Image
+from moviepy.editor import VideoFileClip
 
 
 def home(request):
@@ -57,6 +64,28 @@ def service_detail(request,pk):
 
 
 
+
+
+
+
+
+
+
+def compress_video(video_file, width=640):
+    # Load the video using VideoFileClip
+    video = VideoFileClip(video_file)
+    # Resize the video width to the specified value
+    video = video.resize(width=width)
+    
+    # Save the compressed video to an in-memory file
+    with BytesIO() as output_buffer:
+        video.write_videofile(output_buffer, codec='libx264')
+        compressed_video = ContentFile(output_buffer.getvalue())
+    
+    return compressed_video
+from moviepy.editor import VideoFileClip
+
+
 def register_service_provider(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST, request.FILES)
@@ -81,6 +110,10 @@ def register_service_provider(request):
                 user = CustomUser(username=username, email=email)
                 user.set_password(password)
                 user.save()
+
+
+                #if service_video:
+                    #service_video = compress_video(service_video)
 
                 # Create service instance
                 service = Service.objects.create(

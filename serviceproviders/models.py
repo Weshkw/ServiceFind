@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.hashers import make_password
+from PIL import Image  # Import the Image class from Pillow
+from moviepy.editor import VideoFileClip
 
 class CustomUser(AbstractUser):
     username = models.CharField(max_length=100, unique=False)
